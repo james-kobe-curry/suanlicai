@@ -1,0 +1,127 @@
+// HOD 算力彩 · 数据模型
+// 金额统一使用整数 μHOD 存储（1 HOD = 1_000_000 μHOD），避免浮点误差
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  role         String   @default("USER") // USER | ADMIN
+  status       String   @default("ACTIVE") // ACTIVE | BANNED
+  phone        String?  @unique // 绑定手机号（验证码校验后绑定）
+  email        String?  @unique // 绑定邮箱
+  platformId   String?  @unique // 平台账户 ID（二期对接真实平台时绑定）
+  boundAt      DateTime? // 平台绑定时间
+  balance      BigInt   @default(0) // 单位 μHOD
+  usernameChangesThisMonth Int @default(0)
+  usernameChangedAt DateTime?
+  createdAt    DateTime @default(now())
+  bets         Bet[]
+  txs          Tx[]
+  verifyCodes  VerifyCode[]
+  redeemedCodes RedeemCode[] @relation("RedeemedCodes")
+}
+
+model VerifyCode {
+  id        String   @id @default(cuid())
+  userId    String // 申请验证码的用户
+  type      String // PHONE | EMAIL
+  target    String // 手机号或邮箱
+  scene     String @default("BIND") // BIND | RESET
+  code      String // 6 位验证码
+  expiresAt DateTime // 有效期（5 分钟）
+  usedAt    DateTime? // 使用时间（一次性）
+  attempts  Int     @default(0) // 失败尝试次数（≥5 则作废）
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([type, target])
+}
+
+model RedeemCode {
+  id        String    @id @default(cuid())
+  code      String    @unique // HOD-XXXX-XXXX-XXXX
+  amount    BigInt // 面额 μHOD
+  batch     String // 批次名
+  status    String    @default("UNUSED") // UNUSED | USED | DISABLED
+  expiresAt DateTime? // 有效期（可选）
+  usedBy    String? // 使用用户 id
+  usedAt    DateTime?
+  createdBy String? // 创建管理员 id
+  createdAt DateTime  @default(now())
+  user      User?     @relation("RedeemedCodes", fields: [usedBy], references: [id])
+
+  @@index([batch])
+  @@index([status])
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @default("false")
+  updatedBy String?
+  updatedAt DateTime @updatedAt
+}
+
+model Round {
+  id             String    @id @default(cuid())
+  roundNo        Int       @unique // 期号，创建时自增赋值
+  status         String    @default("OPEN") // OPEN 投注中 | LOCKED 已截止 | DRAWN 已开奖 | CANCELED 已取消
+  basePrice      BigInt    @default(1000000) // 每注基础价（1x 档），μHOD
+  returnRate     Int       @default(80) // 返奖率 %，默认 80
+  betCloseAt     DateTime // 投注截止时间
+  drawAt         DateTime // 开奖时间
+  winningCode    String? // 开奖码（期次创建时已生成，开奖后公示）
+  salt           String? // 随机盐（开奖后公示，用于哈希校验）
+  codeHash       String // 承诺哈希 sha256(winningCode|salt)，投注前公示
+  totalSales     BigInt    @default(0) // 本期销售总额
+  prizePool      BigInt    @default(0) // 本期实际派奖总额
+  rolloverFrom   BigInt    @default(0) // 上期滚入的大奖金额
+  rolloverTo     BigInt    @default(0) // 本期滚出（滚存）金额
+  rolloverDone   Boolean   @default(false) // 滚存是否已被后续期次吸收
+  platformProfit BigInt    @default(0) // 平台留存
+  drawnAt        DateTime? // 实际开奖时间
+  createdAt      DateTime  @default(now())
+  bets           Bet[]
+}
+
+model Bet {
+  id        String   @id @default(cuid())
+  userId    String
+  roundId   String
+  code      String // 6 位竞猜码（前导零保留）
+  tier      Int      @default(1) // 档位：1 | 10 | 100
+  stake     BigInt // 本注实付 = basePrice * tier，μHOD
+  status    String   @default("ACTIVE") // ACTIVE | WON | LOST | REFUNDED
+  winLevel  Int? // 中奖等级 1-6
+  prize     BigInt   @default(0) // 实得奖金，μHOD
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  round     Round    @relation(fields: [roundId], references: [id])
+
+  @@index([userId])
+  @@index([roundId])
+}
+
+model Tx {
+  id           String   @id @default(cuid())
+  userId       String
+  type         String // REGISTER_BONUS 注册赠送 | FAUCET 演示充值 | BET 投注 | PRIZE 中奖 | REFUND 退款
+  amount       BigInt // 正数入账，负数出账，μHOD
+  balanceAfter BigInt
+  refId        String? // 关联对象（期次/注单）id
+  note         String?
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}

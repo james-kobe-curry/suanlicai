@@ -1,0 +1,412 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─────────────────────────────────────────────────────────────
+   设计令牌：低饱和深海青蓝 + 中性灰 · 暗色默认 / 浅色可切换
+   ───────────────────────────────────────────────────────────── */
+:root {
+  color-scheme: light;
+  --t-base: #f3f5f7;
+  --t-surface: #ffffff;
+  --t-raise: #f5f7f9;
+  --t-line: #e3e8ed;
+  --t-fg: #17202a;
+  --t-fg2: #5c6672;
+  --t-fg3: #98a2ad;
+  --t-brand: #2e6e88;
+  --t-brand-2: #245c73;
+  --t-brand-a: #357b97;
+  --t-brand-soft: rgba(46, 110, 136, 0.09);
+  --t-brand-fg: #ffffff;
+  --t-ok: #3e7d64;
+  --t-ok-soft: rgba(62, 125, 100, 0.1);
+  --t-warn: #8f7a3f;
+  --t-warn-soft: rgba(143, 122, 63, 0.12);
+  --t-err: #a65d5d;
+  --t-err-soft: rgba(166, 93, 93, 0.1);
+  --t-ball-bg: #eef2f6;
+  --t-ball-line: #dbe2ea;
+  --t-ball-fg: #1c2733;
+  --t-grid: rgba(46, 110, 136, 0.05);
+  --t-glow: rgba(46, 110, 136, 0.045);
+  --t-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 8px 24px rgba(16, 24, 40, 0.05);
+  --t-shadow-lg: 0 2px 6px rgba(16, 24, 40, 0.06), 0 16px 40px rgba(16, 24, 40, 0.08);
+}
+
+.dark {
+  color-scheme: dark;
+  --t-base: #0a0f14;
+  --t-surface: #10161d;
+  --t-raise: #161d25;
+  --t-line: #232c36;
+  --t-fg: #e6ebef;
+  --t-fg2: #a4aeb8;
+  --t-fg3: #66727e;
+  --t-brand: #4d9cb8;
+  --t-brand-2: #63aecb;
+  --t-brand-a: #5aa9c4;
+  --t-brand-soft: rgba(77, 156, 184, 0.13);
+  --t-brand-fg: #0a1216;
+  --t-ok: #5da288;
+  --t-ok-soft: rgba(93, 162, 136, 0.12);
+  --t-warn: #b09b5f;
+  --t-warn-soft: rgba(176, 155, 95, 0.12);
+  --t-err: #c07a7a;
+  --t-err-soft: rgba(192, 122, 122, 0.12);
+  --t-ball-bg: #161d25;
+  --t-ball-line: #27323d;
+  --t-ball-fg: #dbe4eb;
+  --t-grid: rgba(77, 156, 184, 0.04);
+  --t-glow: rgba(77, 156, 184, 0.05);
+  --t-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.22);
+  --t-shadow-lg: 0 2px 6px rgba(0, 0, 0, 0.3), 0 16px 40px rgba(0, 0, 0, 0.3);
+}
+
+@theme inline {
+  --color-base: var(--t-base);
+  --color-surface: var(--t-surface);
+  --color-raise: var(--t-raise);
+  --color-line: var(--t-line);
+  --color-fg: var(--t-fg);
+  --color-fg2: var(--t-fg2);
+  --color-fg3: var(--t-fg3);
+  --color-brand: var(--t-brand);
+  --color-brand2: var(--t-brand-2);
+  --color-branda: var(--t-brand-a);
+  --color-brandsoft: var(--t-brand-soft);
+  --color-brandfg: var(--t-brand-fg);
+  --color-ok: var(--t-ok);
+  --color-oksoft: var(--t-ok-soft);
+  --color-warn: var(--t-warn);
+  --color-warnsoft: var(--t-warn-soft);
+  --color-err: var(--t-err);
+  --color-errsoft: var(--t-err-soft);
+}
+
+/* ── 基础 ─────────────────────────────────────────────── */
+body {
+  min-height: 100vh;
+  color: var(--t-fg);
+  background-color: var(--t-base);
+  background-image: radial-gradient(
+    1100px 520px at 82% -8%,
+    var(--t-glow),
+    transparent 60%
+  );
+  background-attachment: fixed;
+  font-family:
+    -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Segoe UI", Roboto, sans-serif;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+::selection {
+  background: var(--t-brand-soft);
+  color: var(--t-fg);
+}
+
+@utility mono-num {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  font-family: "SF Mono", "Cascadia Code", Consolas, "JetBrains Mono", Menlo, monospace;
+}
+
+@utility eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--t-fg3);
+}
+
+/* ── 卡片 ─────────────────────────────────────────────── */
+.card {
+  background: var(--t-surface);
+  border: 1px solid var(--t-line);
+  border-radius: 1.25rem;
+  box-shadow: var(--t-shadow);
+}
+.card-hover {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.card-hover:hover {
+  border-color: color-mix(in srgb, var(--t-brand) 30%, var(--t-line));
+  box-shadow: var(--t-shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* ── 按钮 ─────────────────────────────────────────────── */
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition-all duration-200;
+  background: linear-gradient(135deg, var(--t-brand-a), var(--t-brand));
+  color: var(--t-brand-fg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--t-brand-2), var(--t-brand-2));
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+.btn-primary:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-150;
+  background: var(--t-raise);
+  border: 1px solid var(--t-line);
+  color: var(--t-fg2);
+}
+.btn-secondary:hover {
+  color: var(--t-fg);
+  border-color: color-mix(in srgb, var(--t-fg3) 55%, var(--t-line));
+  transform: translateY(-1px);
+}
+.btn-secondary:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.btn-danger {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-150;
+  background: var(--t-err-soft);
+  color: var(--t-err);
+}
+.btn-danger:hover {
+  background: color-mix(in srgb, var(--t-err-soft) 70%, var(--t-err) 30%);
+}
+.btn-danger:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ── 输入框 ───────────────────────────────────────────── */
+.input {
+  @apply w-full rounded-lg px-3 py-2 text-sm outline-none transition-all duration-150;
+  background: var(--t-raise);
+  border: 1px solid var(--t-line);
+  color: var(--t-fg);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.input::placeholder {
+  color: var(--t-fg3);
+}
+.input:focus {
+  border-color: var(--t-brand);
+  box-shadow: 0 0 0 3px var(--t-brand-soft);
+}
+/* select 元素需要去掉原生箭头 + 重置垂直内边距，否则小高度（h-7/h-8）下文字被切 */
+select.input {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  padding-right: 2rem;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 1.2;
+  text-align-last: auto;
+}
+
+/* ── 数字码 ───────────────────────────────────────────── */
+.ball {
+  @apply mono-num inline-flex items-center justify-center rounded-[10px] font-semibold;
+  background: var(--t-ball-bg);
+  border: 1px solid var(--t-ball-line);
+  color: var(--t-ball-fg);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.ball-brand {
+  @apply mono-num inline-flex items-center justify-center rounded-[10px] font-semibold;
+  background: linear-gradient(180deg, var(--t-brand-a), var(--t-brand));
+  border: 1px solid transparent;
+  color: var(--t-brand-fg);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 1px 3px rgba(0, 0, 0, 0.18);
+}
+
+/* 大码展示容器 */
+.code-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* 品牌渐变数字（用于关键数值） */
+.num-grad {
+  background: linear-gradient(135deg, var(--t-brand-a), var(--t-brand));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ── 表格 ─────────────────────────────────────────────── */
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+}
+.tbl thead th {
+  @apply px-4 py-3 text-left text-[11px] font-medium uppercase tracking-[0.14em];
+  color: var(--t-fg3);
+}
+.tbl tbody td {
+  @apply px-4 py-3;
+}
+.tbl tbody tr {
+  border-bottom: 1px solid var(--t-line);
+  transition: background-color 0.15s ease;
+}
+.tbl tbody tr:last-child {
+  border-bottom: none;
+}
+.tbl tbody tr:hover {
+  background: var(--t-raise);
+}
+
+/* ── 区块标题 ─────────────────────────────────────────── */
+.section-title {
+  @apply flex items-center gap-2.5 text-base font-semibold;
+  color: var(--t-fg);
+}
+.section-title::before {
+  content: "";
+  @apply inline-block h-3.5 w-0.5 rounded-full;
+  background: linear-gradient(180deg, var(--t-brand-a), var(--t-brand));
+}
+
+/* ── 装饰 ─────────────────────────────────────────────── */
+.hairline {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--t-line) 18%,
+    var(--t-line) 82%,
+    transparent
+  );
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(var(--t-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--t-grid) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: radial-gradient(ellipse at 30% 0%, black 20%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse at 30% 0%, black 20%, transparent 78%);
+}
+
+/* 状态脉冲点 */
+.tick {
+  position: relative;
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--t-ok);
+}
+.tick::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: var(--t-ok);
+  animation: tick-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes tick-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  70%,
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+/* 入场动效 */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-up {
+  animation: fade-up 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* ── 复式选号数字按钮 ─────────────────────────────────── */
+.digit-off {
+  @apply flex h-9 w-9 items-center justify-center rounded-lg text-sm transition-all duration-150;
+  background: var(--t-raise);
+  border: 1px solid var(--t-line);
+  color: var(--t-fg2);
+}
+.digit-off:hover {
+  border-color: var(--t-brand);
+  color: var(--t-fg);
+}
+.digit-on {
+  @apply flex h-9 w-9 items-center justify-center rounded-lg text-sm font-semibold transition-all duration-150;
+  background: var(--t-brand-soft);
+  border: 1px solid var(--t-brand);
+  color: var(--t-brand);
+  box-shadow: 0 0 0 1px var(--t-brand-soft);
+}
+
+/* ── 档位选择 ─────────────────────────────────────────── */
+.tier-off {
+  @apply rounded-xl px-4 py-2 text-left transition-all duration-150;
+  background: var(--t-raise);
+  border: 1px solid var(--t-line);
+}
+.tier-off:hover {
+  border-color: color-mix(in srgb, var(--t-fg3) 55%, var(--t-line));
+}
+.tier-on {
+  @apply rounded-xl px-4 py-2 text-left transition-all duration-150;
+  background: var(--t-brand-soft);
+  border: 1px solid var(--t-brand);
+}
+
+/* ── 段控（分段选择器） ───────────────────────────────── */
+.segmented {
+  @apply inline-flex gap-1 rounded-lg border border-line bg-raise p-1;
+}
+.segmented button,
+.segmented a {
+  @apply rounded-md px-4 py-1.5 text-sm font-medium transition-all duration-150;
+  color: var(--t-fg2);
+}
+.segmented button:hover,
+.segmented a:hover {
+  color: var(--t-fg);
+}
+.segmented button[data-active='true'],
+.segmented a[data-active='true'] {
+  background: linear-gradient(135deg, var(--t-brand-a), var(--t-brand));
+  color: var(--t-brand-fg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* ── 滚动条 ───────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--t-fg3) 40%, transparent);
+  border-radius: 8px;
+  border: 2px solid var(--t-base);
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
