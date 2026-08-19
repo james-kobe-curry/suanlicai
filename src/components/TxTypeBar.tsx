@@ -26,7 +26,7 @@ export default function TxTypeBar({ stats }: { stats: TxTypeStat[] }) {
   return (
     <div className="card p-6">
       <h2 className="section-title">流水类型分布</h2>
-      <p className="mt-1 text-xs text-fg3">各类交易金额占比</p>
+      <p className="mt-1 text-xs text-fg3">各类履约金额占比</p>
 
       {/* 堆叠条 */}
       <div className="mt-4 h-6 w-full overflow-hidden rounded-full bg-raise flex">

@@ -18,7 +18,7 @@ export default async function Nav() {
               H
             </span>
             <span className="text-base font-semibold tracking-wide text-fg">
-              HOD <span className="font-normal text-fg2">算力彩</span>
+              HOD <span className="font-normal text-fg2">算力乐</span>
             </span>
           </Link>
           <nav className="flex items-center gap-0.5 sm:gap-1">

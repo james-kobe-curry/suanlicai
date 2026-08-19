@@ -3,14 +3,14 @@ export default function AgreementPage() {
     <div className="space-y-6">
       <div>
         <p className="eyebrow text-brand">User Agreement</p>
-        <h1 className="mt-1 text-2xl font-semibold text-fg">HOD 算力彩用户服务协议</h1>
+        <h1 className="mt-1 text-2xl font-semibold text-fg">HOD 算力乐用户服务协议</h1>
         <p className="mt-1 text-sm text-fg2">更新日期：2026 年 8 月 18 日 · 生效日期：2026 年 8 月 18 日</p>
       </div>
 
       <section className="card p-7 space-y-4 text-sm leading-relaxed text-fg2">
         <h2 className="section-title">一、总则</h2>
         <p>
-          1.1 欢迎使用 HOD 算力彩（以下简称"本平台"）。本协议是您（以下简称"用户"）与本平台运营方之间关于使用本平台服务的法律协议。
+          1.1 欢迎使用 HOD 算力乐（以下简称"本平台"）。本协议是您（以下简称"用户"）与本平台运营方之间关于使用本平台服务的法律协议。
         </p>
         <p>
           1.2 本平台提供基于算力（HOD）的数字竞猜服务。用户在充分了解规则并自愿承担风险的前提下参与活动。

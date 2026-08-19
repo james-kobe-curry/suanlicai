@@ -11,7 +11,7 @@ import type { Transporter } from 'nodemailer';
  *   SMTP_USER      登录账号（通常是邮箱地址）
  *   SMTP_PASS      密码 / SMTP 授权码
  *   EMAIL_FROM     发件人地址（默认取 SMTP_USER）
- *   EMAIL_FROM_NAME 发件人显示名（默认「HOD 算力彩」）
+ *   EMAIL_FROM_NAME 发件人显示名（默认「HOD 算力乐」）
  *
  * 未配置 SMTP 时 isEmailConfigured() 返回 false，codeService 自动回退演示模式。
  */
@@ -49,14 +49,14 @@ export function buildVerificationEmail(
   code: string,
   scene: EmailScene
 ): { subject: string; html: string } {
-  const subject = `【HOD 算力彩】${SCENE_TEXT[scene]}验证码：${code}`;
+  const subject = `【HOD 算力乐】${SCENE_TEXT[scene]}验证码：${code}`;
   const html = `<!DOCTYPE html>
 <html lang="zh-CN">
 <body style="margin:0;padding:32px 16px;background:#f3f5f7;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;">
   <div style="max-width:480px;margin:0 auto;background:#ffffff;border:1px solid #e3e8ed;border-radius:14px;overflow:hidden;">
     <div style="background:#10161d;padding:18px 28px;">
       <span style="color:#4d9cb8;font-weight:700;font-size:13px;letter-spacing:3px;">HOD POWER LOTTERY</span>
-      <span style="float:right;color:#66727e;font-size:12px;">HOD 算力彩</span>
+      <span style="float:right;color:#66727e;font-size:12px;">HOD 算力乐</span>
     </div>
     <div style="padding:32px 28px;">
       <h2 style="margin:0 0 8px;color:#17202a;font-size:18px;">${SCENE_TEXT[scene]}验证码</h2>
@@ -71,7 +71,7 @@ export function buildVerificationEmail(
       </p>
     </div>
     <div style="border-top:1px solid #e3e8ed;padding:16px 28px;color:#98a2ad;font-size:11px;">
-      HOD 算力彩 · 账户安全验证 · 本邮件由系统自动发送，请勿回复
+      HOD 算力乐 · 账户安全验证 · 本邮件由系统自动发送，请勿回复
     </div>
   </div>
 </body>
@@ -86,7 +86,7 @@ export async function sendVerificationEmail(
   scene: EmailScene
 ): Promise<void> {
   const { subject, html } = buildVerificationEmail(code, scene);
-  const from = `"${process.env.EMAIL_FROM_NAME ?? 'HOD 算力彩'}" <${
+  const from = `"${process.env.EMAIL_FROM_NAME ?? 'HOD 算力乐'}" <${
     process.env.EMAIL_FROM ?? process.env.SMTP_USER
   }>`;
   await getTransporter().sendMail({ from, to, subject, html });

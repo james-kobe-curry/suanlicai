@@ -1,9 +1,9 @@
-// HOD 算力彩 · 全局常量与玩法配置
+// HOD 算力乐 · 全局常量与玩法配置
 
 /** 1 HOD = 1_000_000 μHOD（金额最小单位，整数存储避免浮点误差） */
 export const MICRO = 1_000_000n;
 
-export const SITE_NAME = 'HOD 算力彩';
+export const SITE_NAME = 'HOD 算力乐';
 export const TOKEN_NAME = 'HOD';
 
 export const CODE_LEN = 6;

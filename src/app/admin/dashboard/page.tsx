@@ -31,7 +31,7 @@ export default function AdminDashboardPage() {
       <div>
         <p className="eyebrow text-brand">Operations Dashboard</p>
         <h1 className="mt-1 text-xl font-semibold text-fg">运营数据看板</h1>
-        <p className="mt-1 text-sm text-fg2">投注转化 · 留存 · 奖池健康度 · 交易分布</p>
+        <p className="mt-1 text-sm text-fg2">投注转化 · 留存 · 奖池健康度 · 履约分布</p>
       </div>
 
       {!data ? (

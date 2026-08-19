@@ -274,7 +274,7 @@ export default function LoginForm({ phoneEnabled = false }: { phoneEnabled?: boo
             <span className="text-xs text-fg3 leading-relaxed">
               我已阅读并同意{' '}
               <Link href="/agreement" target="_blank" className="text-brand hover:underline">
-                《HOD 算力彩用户服务协议》
+                《HOD 算力乐用户服务协议》
               </Link>
             </span>
           </label>

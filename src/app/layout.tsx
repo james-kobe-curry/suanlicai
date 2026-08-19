@@ -5,7 +5,7 @@ import Nav from "@/components/Nav";
 import BindReminder from "@/components/BindReminder";
 
 export const metadata: Metadata = {
-  title: "HOD 算力彩 · 算力竞猜平台",
+  title: "HOD 算力乐 · 算力竞猜平台",
   description: "用平台算力参与 6 位数字竞猜，每期开奖、80% 返奖、哈希承诺公平可验证",
 };
 
@@ -27,7 +27,7 @@ export default function RootLayout({
         <footer className="mt-4 border-t border-line py-8">
           <div className="hairline mx-auto mb-6 max-w-5xl" />
           <p className="text-xs text-fg3">
-            <span className="font-semibold text-fg2">HOD 算力彩</span> · 算力竞猜平台 ·
+            <span className="font-semibold text-fg2">HOD 算力乐</span> · 算力竞猜平台 ·
             禁止未成年人参与 · 理性投入
           </p>
           <p className="mono-num mt-1.5 text-[11px] tracking-[0.18em] text-fg3/80">
